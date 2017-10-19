@@ -14,10 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from django.contrib.auth import views as auth_views
+from .views import index
 
 app_name = 'twitter'
 
 urlpatterns = [
-
+    url(r'^$', index, name='index'),
 ]
