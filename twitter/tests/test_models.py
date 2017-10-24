@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from twitter.models import Tweet
 
 
-class TwettTest(TestCase):
+class TwettModelTest(TestCase):
     """Testing by creating new tweet using :model:`Tweet`"""
     def create_tweet(self, content="Test Tweet!", creation_date=timezone.now(
 
