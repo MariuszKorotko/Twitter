@@ -1,0 +1,12 @@
+{% extends 'twitter/base.html' %}
+
+{% block content %}
+<p>Tweets:</p>
+<table>
+    {% for tweet in tweet_list %}
+    <tr>
+        <td>{{ tweet.content }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
