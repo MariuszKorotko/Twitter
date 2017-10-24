@@ -14,7 +14,7 @@ class TweetModelTest(TestCase):
                                     creation_date=creation_date, user=user)
 
     def test_tweet_creation(self):
-        """Create tweet"""
+        """Create and test tweet"""
         tweet = self.create_tweet()
         self.assertTrue(isinstance(tweet, Tweet))
         self.assertEqual(tweet.content, "Test Tweet!")
