@@ -1,7 +1,15 @@
 from django.test import TestCase
-from twitter.models import Tweet
+from django.test.client import RequestFactory
+from django.core.urlresolvers import reverse
+from twitter.views import IndexView
 
 
 class IndexViewTest(TestCase):
-    """Testing IndexView"""
-    pass
+
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_index_view(self):
+        request = self.factory.get(reverse('twitter:index'))
+        response = IndexView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
