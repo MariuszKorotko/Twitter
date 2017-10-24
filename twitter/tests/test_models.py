@@ -12,7 +12,6 @@ class TweetModelTest(TestCase):
         Tweet.objects.create(content="Test Tweet",
                              creation_date=timezone.now(), user=user)
 
-
     def test_tweet_creation(self):
         """Create and test tweet"""
         tweet = Tweet.objects.get(content="Test Tweet")
