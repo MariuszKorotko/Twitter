@@ -1,11 +1,27 @@
 {% extends 'twitter/base.html' %}
 
 {% block content %}
-<p>Tweets:</p>
+{% load static %}
+
+<link rel="stylesheet" type="text/css"
+      href="{% static 'twitter/style.css' %}" />
+
 <table>
-    {% for tweet in tweet_list %}
+  <thead>
     <tr>
+      <th>Who:</th>
+      <th>What:</th>
+      <th>When:</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        {% for tweet in tweet_list %}
+    <tr>
+        <td><strong>{{ tweet.user }}</strong></td>
         <td>{{ tweet.content }}</td>
+        <td>{{ tweet.creation_date }}</td>
+
     </tr>
     {% endfor %}
 </table>
