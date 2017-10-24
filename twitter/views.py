@@ -3,9 +3,7 @@ from .models import Tweet
 
 
 class IndexView(generic.ListView):
-    """
-    Display all tweets :model:`twitter.Tweet`
-    """
+    """Display all tweets :model:`Tweet`"""
     template_name = 'twitter/index.html'
 
     def get_queryset(self):
