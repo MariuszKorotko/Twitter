@@ -3,7 +3,7 @@ from django.forms.widgets import Textarea
 from twitter.models import Tweet
 
 
-class AddNewTweetForm(ModelForm):
+class AddTweetForm(ModelForm):
     """Adding new tweet using Model Form."""
     class Meta:
         model = Tweet
