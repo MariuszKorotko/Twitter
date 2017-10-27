@@ -14,11 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from .views import IndexView
+from .views import IndexView, AddTweetView
 
 app_name = 'twitter'
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
-    url(r'^addtweet/$', AddTweet.as_view(), name='add_tweet')
+    url(r'^addtweet/$', AddTweetView.as_view(), name='add_tweet')
 ]
