@@ -20,5 +20,5 @@ app_name = 'twitter'
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
-    url(r'^addtweet/$', AddTweetView.as_view(), name='add_tweet')
+    url(r'^add_tweet/$', AddTweetView.as_view(), name='add_tweet')
 ]
