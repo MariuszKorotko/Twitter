@@ -2,7 +2,6 @@
 
 {% block content %}
 
-<a href="{% url 'twitter:add_tweet'%}">Add tweet</a>
 <table>
   <thead>
     <tr>
@@ -18,8 +17,14 @@
         <td><strong>{{ tweet.user }}</strong></td>
         <td>{{ tweet.content }}</td>
         <td>{{ tweet.creation_date }}</td>
-
     </tr>
     {% endfor %}
+    <tr>
+        <td></td>
+        <td><a href="{% url 'twitter:add_tweet'%}">New
+            tweet</a></td>
+        <td></td>
+    </tr>
+
 </table>
 {% endblock %}
