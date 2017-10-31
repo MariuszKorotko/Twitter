@@ -1,10 +1,6 @@
 {% extends 'twitter/base.html' %}
 
 {% block content %}
-{% load static %}
-
-<link rel="stylesheet" type="text/css"
-      href="{% static 'twitter/style.css' %}" />
 
 <a href="{% url 'twitter:add_tweet'%}">Add tweet</a>
 <table>
