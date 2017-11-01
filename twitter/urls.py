@@ -14,11 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.contrib.auth import views as auth_views
 from .views import IndexView, AddTweetView
 
 app_name = 'twitter'
 
 urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^login/$', auth_views.login,
+        {'template_name': 'twitter/login.html'}, name='login'),
+    url(r'^logout/$', auth_views.login,
+        {'template_name': 'twitter/logout.html'}, name='logout'),
     url(r'^add_tweet/$', AddTweetView.as_view(), name='add_tweet')
 ]
