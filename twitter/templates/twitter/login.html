@@ -5,6 +5,11 @@
 {%block content %}
 <form action="{% url 'twitter:login' %}" method="post">
     {% csrf_token %}
-    <div>{{ form }}</div>
+    <table>
+        <tr>
+            <th colspan="3">Welcom to Twitter!</th>
+        </tr>
+        <tr>{{ form }}</tr>
+    </table>
 </form>
 {% endblock %}
