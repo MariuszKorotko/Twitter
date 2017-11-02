@@ -1,0 +1,10 @@
+{% extends 'twitter/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{%block content %}
+<form action="{% url 'twitter:login' %}" method="post">
+    {% csrf_token %}
+    <div>{{ form }}</div>
+</form>
+{% endblock %}
