@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^login/$', auth_views.login,
         {'template_name': 'twitter/login.html'}, name='login'),
-    url(r'^logout/$', auth_views.login,
+    url(r'^logout/$', auth_views.logout,
         {'template_name': 'twitter/logout.html'}, name='logout'),
     url(r'^add_tweet/$', AddTweetView.as_view(), name='add_tweet')
 ]
