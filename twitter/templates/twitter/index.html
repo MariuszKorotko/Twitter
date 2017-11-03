@@ -20,11 +20,11 @@
     </tr>
     {% endfor %}
     <tr>
-        <td></td>
-        <td><a href="{% url 'twitter:add_tweet'%}">New
+        <td colspan="3"><a href="{% url 'twitter:add_tweet'%}">New
             tweet</a></td>
-        <td></td>
     </tr>
-
+    <tr>
+        <td colspan="3"><a href="{% url 'twitter:logout' %}">Logout</a></td>
+    </tr>
 </table>
 {% endblock %}
