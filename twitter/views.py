@@ -1,12 +1,12 @@
 from django.views import generic
 from django.views import View
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Tweet
 from .forms import AddTweetForm
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     """Display all tweets using :view:`twitter.IndexView` create by
     :model:`auth.User` using model :model:`twitter.Tweet`.
     """
@@ -16,7 +16,7 @@ class IndexView(generic.ListView):
         return Tweet.objects.order_by('-creation_date')[:20]
 
 
-class AddTweetView(View):
+class AddTweetView(LoginRequiredMixin, View):
     """Add new tweet to datebase."""
     def get(self, request):
         form = AddTweetForm()
