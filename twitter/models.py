@@ -49,11 +49,10 @@ class User(AbstractUser):
 
 class Tweet(models.Model):
     """Stores a single tweet, related to :model:`auth.User`."""
-    content = models.TextField()
+    content = models.CharField(max_length=140)
     creation_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User,
-                             on_delete=models.CASCADE, null=True,
-                             blank=True)
+                             on_delete=models.CASCADE)
 
     def __str__(self):
         return self.content[:50]
