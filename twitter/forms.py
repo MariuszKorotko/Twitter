@@ -9,5 +9,5 @@ class AddTweetForm(ModelForm):
         model = Tweet
         fields = ['content']
         widgets = {
-            'content': Textarea(attrs={'cols': 80, 'rows': 5}),
+            'content': Textarea(attrs={'cols': 60, 'rows': 3}),
         }
