@@ -16,15 +16,27 @@ class IndexView(LoginRequiredMixin, generic.ListView):
         return Tweet.objects.order_by('-creation_date')[:20]
 
 
-class AddTweetView(LoginRequiredMixin, View):
+class AddTweetView(LoginRequiredMixin, generic.FormView):
     """Add new tweet to datebase."""
-    def get(self, request):
-        form = AddTweetForm()
-        context = {"form": form}
-        return render(request, "twitter/add_tweet_form.html", context)
+    template_name = 'twitter/add_tweet_form.html'
+    form_class = AddTweetForm
+    success_url = '/twitter/'
 
-    def post(self, request):
-        form = AddTweetForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/twitter/')
+    def form_valid(self, form):
+        user = self.request.user
+        content = form.cleaned_data['content']
+        Tweet.objects.create(content=content, user=user)
+        return super(AddTweetView, self).form_valid(form)
+
+# class AddTweetView(LoginRequiredMixin, View):
+#     """Add new tweet to datebase."""
+#     def get(self, request):
+#         form = AddTweetForm()
+#         context = {"form": form}
+#         return render(request, "twitter/add_tweet_form.html", context)
+#
+#     def post(self, request):
+#         form = AddTweetForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('/twitter/')
