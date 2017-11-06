@@ -27,16 +27,3 @@ class AddTweetView(LoginRequiredMixin, generic.FormView):
         content = form.cleaned_data['content']
         Tweet.objects.create(content=content, user=user)
         return super(AddTweetView, self).form_valid(form)
-
-# class AddTweetView(LoginRequiredMixin, View):
-#     """Add new tweet to datebase."""
-#     def get(self, request):
-#         form = AddTweetForm()
-#         context = {"form": form}
-#         return render(request, "twitter/add_tweet_form.html", context)
-#
-#     def post(self, request):
-#         form = AddTweetForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('/twitter/')
