@@ -1,6 +1,4 @@
 from django.views import generic
-from django.views import View
-from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Tweet
 from .forms import AddTweetForm
