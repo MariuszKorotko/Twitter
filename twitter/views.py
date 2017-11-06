@@ -1,5 +1,6 @@
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from .models import Tweet
 from .forms import AddTweetForm
 
@@ -18,7 +19,7 @@ class AddTweetView(LoginRequiredMixin, generic.FormView):
     """Add new tweet to datebase."""
     template_name = 'twitter/add_tweet_form.html'
     form_class = AddTweetForm
-    success_url = '/twitter/'
+    success_url = reverse_lazy('twitter:index')
 
     def form_valid(self, form):
         user = self.request.user
