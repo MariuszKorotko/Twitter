@@ -1,30 +1,26 @@
 {% extends 'twitter/base.html' %}
 
+{% block title %} Twitts {% endblock %}
+
 {% block content %}
 
+<form action="{% url 'twitter:add_tweet' %}" method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <a href=""><input type="submit" value="New tweet"></a>
+</form>
+
+<h4>Last tweets:</h4>
 <table>
-  <thead>
+    {% for tweet in tweet_list %}
     <tr>
-      <th>Who:</th>
-      <th>What:</th>
-      <th>When:</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-        {% for tweet in tweet_list %}
-    <tr>
-        <td><strong>{{ tweet.user }}</strong></td>
         <td>{{ tweet.content }}</td>
-        <td>{{ tweet.creation_date }}</td>
+        <td><a href="">{{ tweet.user.get_full_name }}</a></td>
+        <td><a href="">Add comment</a></td>
     </tr>
     {% endfor %}
-    <tr>
-        <td colspan="3"><a href="{% url 'twitter:add_tweet'%}">New
-            tweet</a></td>
-    </tr>
-    <tr>
-        <td colspan="3"><a href="{% url 'twitter:logout' %}">Logout</a></td>
-    </tr>
 </table>
+<br>
+    <a href="{% url 'twitter:logout' %}">Logout</a>
+
 {% endblock %}
