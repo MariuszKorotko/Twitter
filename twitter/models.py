@@ -11,7 +11,7 @@ class UserManager(BaseUserManager):
     def _create_user(self, email, password, **extra_fields):
         """Create and save a User with the given email and password."""
         if not email:
-            raise ValueError('The given email must be set')
+            raise ValueError('The given email must be set!')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -51,8 +51,4 @@ class Tweet(models.Model):
     """Stores a single tweet, related to :model:`auth.User`."""
     content = models.CharField(max_length=140)
     creation_date = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User,
-                             on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.content[:50]
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
