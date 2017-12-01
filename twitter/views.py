@@ -1,28 +1,41 @@
-from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic.edit import FormView
+from django.shortcuts import render
 from .models import Tweet
 from .forms import AddTweetForm
 
 
-class IndexView(LoginRequiredMixin, generic.ListView):
+class IndexView(LoginRequiredMixin, View):
     """Display all tweets using :view:`twitter.IndexView` create by
     :model:`auth.User` using model :model:`twitter.Tweet`.
     """
-    template_name = 'twitter/index.html'
+    def get(self, request):
+        tweet_list = Tweet.objects.order_by('-creation_date')
+        form = AddTweetForm()
+        context = {
+            'form': form,
+            'tweet_list': tweet_list
+        }
+        return render(request, 'twitter/index.html', context)
 
-    def get_queryset(self):
-        return Tweet.objects.order_by('-creation_date')[:20]
+
+class NewUserView(LoginRequiredMixin, View):
+    """Display form to create new user."""
+    def get(self, request):
+        return render(request, 'twitter/new_user.html', context=None)
 
 
-class AddTweetView(LoginRequiredMixin, generic.FormView):
-    """Add new tweet to datebase."""
-    template_name = 'twitter/add_tweet_form.html'
+class AddTweetView(LoginRequiredMixin, FormView):
+    """Adds new tweet to db"""
+    template_name = "index.html"
     form_class = AddTweetForm
-    success_url = reverse_lazy('twitter:index')
+    success_url = '/twitter/'
 
     def form_valid(self, form):
         user = self.request.user
         content = form.cleaned_data['content']
-        Tweet.objects.create(content=content, user=user)
+        Tweet.objects.create(user=user,
+                             content=content,
+                             )
         return super(AddTweetView, self).form_valid(form)
