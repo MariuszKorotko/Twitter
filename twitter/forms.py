@@ -1,13 +1,13 @@
 from django.forms import ModelForm
 from django.forms.widgets import Textarea
-from twitter.models import Tweet
+from twitter.models import Tweet, User
 
 
 class AddTweetForm(ModelForm):
-    """Adding new tweet using Model Form."""
+    """Adding new tweet."""
     class Meta:
         model = Tweet
         fields = ['content']
         widgets = {
-            'content': Textarea(attrs={'cols': 60, 'rows': 3}),
+            'content': Textarea(attrs={'cols': 60, 'rows': 3})
         }
