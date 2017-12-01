@@ -1,19 +1,24 @@
 {% extends 'twitter/base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %} Login {% endblock %}
 
-{%block content %}
-<form action="{% url 'twitter:login' %}" method="post">
+{% block content %}
+
+<form action="{% url 'twitter:login' %}" method="POST">
     {% csrf_token %}
     <table>
         <tr>
-            <th colspan="3">Welcom to Twitter!</th>
+            <th colspan="3">Welcome to Twitter!</th>
         </tr>
-        <tr>{{ form }}</tr>
+        <tr>
+            {{ form }}
+        </tr>
         <tr>
             <th>Click login or press enter:</th>
-            <td><input type="submit" value="Login"></td>
+            <td><input type="submit" value="Login">&nbsp;
+                <a href="{% url 'twitter:add_user' %}">New user</a></td>
         </tr>
     </table>
 </form>
+
 {% endblock %}
