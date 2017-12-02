@@ -20,7 +20,7 @@ class IndexView(LoginRequiredMixin, View):
         return render(request, 'twitter/index.html', context)
 
 
-class NewUserView(LoginRequiredMixin, View):
+class AddUserView(FormView):
     """Display form to create new user."""
     def get(self, request):
         return render(request, 'twitter/new_user.html', context=None)
