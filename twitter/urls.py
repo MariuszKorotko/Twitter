@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
-from .views import IndexView, NewUserView, AddTweetView
+from .views import IndexView, AddUserView, AddTweetView
 
 app_name = 'twitter'
 
@@ -25,6 +25,6 @@ urlpatterns = [
         {'template_name': 'twitter/login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout,
         {'template_name': 'twitter/logout.html'}, name='logout'),
-    url(r'^add_user/$', NewUserView.as_view(), name='add_user'),
+    url(r'^add_user/$', AddUserView.as_view(), name='add_user'),
     url(r'^add_tweet$', AddTweetView.as_view(), name='add_tweet'),
 ]
