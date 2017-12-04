@@ -1,9 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import login, authenticate
 from django.views import View
 from django.views.generic.edit import FormView
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Tweet
-from .forms import AddTweetForm
+from .forms import AddTweetForm, SignUpForm
 
 
 class IndexView(LoginRequiredMixin, View):
@@ -20,10 +21,19 @@ class IndexView(LoginRequiredMixin, View):
         return render(request, 'twitter/index.html', context)
 
 
-class AddUserView(FormView):
-    """Display form to create new user."""
-    def get(self, request):
-        return render(request, 'twitter/new_user.html', context=None)
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(email=email, password=password)
+            login(request, user)
+            return redirect('/twitter/')
+    else:
+        form = SignUpForm()
+    return render(request, 'twitter/signup.html', {'form': form})
 
 
 class AddTweetView(LoginRequiredMixin, FormView):

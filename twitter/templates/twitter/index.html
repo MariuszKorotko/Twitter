@@ -15,7 +15,7 @@
     {% for tweet in tweet_list %}
     <tr>
         <td>{{ tweet.content }}</td>
-        <td><a href="">{{ tweet.user.get_full_name }}</a></td>
+        <td><a href="">{{ tweet.user.get_short_name }}</a></td>
         <td><a href="">Add comment</a></td>
     </tr>
     {% endfor %}

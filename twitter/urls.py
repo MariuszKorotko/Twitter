@@ -13,18 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
-from django.contrib.auth import views as auth_views
-from .views import IndexView, AddUserView, AddTweetView
+from django.conf.urls import url, include
+from .views import IndexView, signup, AddTweetView
 
 app_name = 'twitter'
 
 urlpatterns = [
+    url(r'^accounts/', include('django.contrib.auth.urls')),
     url(r'^$', IndexView.as_view(), name='index'),
-    url(r'^login/$', auth_views.login,
-        {'template_name': 'twitter/login.html'}, name='login'),
-    url(r'^logout/$', auth_views.logout,
-        {'template_name': 'twitter/logout.html'}, name='logout'),
-    url(r'^add_user/$', AddUserView.as_view(), name='add_user'),
+    url(r'^signup/$', signup, name='signup'),
     url(r'^add_tweet$', AddTweetView.as_view(), name='add_tweet'),
 ]

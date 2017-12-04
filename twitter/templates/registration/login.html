@@ -16,7 +16,9 @@
         <tr>
             <th>Click login or press enter:</th>
             <td><input type="submit" value="Login">&nbsp;
-                <a href="{% url 'twitter:add_user' %}">New user</a></td>
+                <a href="{% url 'twitter:signup' %}">Signup with mail</a>
+                <a href="{% url 'twitter:password_reset' %}">Lost password?</a>
+            </td>
         </tr>
     </table>
 </form>
