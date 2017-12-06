@@ -3,21 +3,44 @@
 {% block title %} TweetDetails {% endblock %}
 
 {% block content %}
+<div id="tweet-details">
+    <h4>Tweet details:</h4>
+    <table>
+        <tr>
+            <td><th>Tweet:</th></td>
+            <td>{{ tweet.contents }}</td>
+        </tr>
+        <tr>
+            <td><th>Author:</th></td>
+            <td>
+                <a href="/twitter/user_details/{{ user.id }}">
+                   {{ tweet.user.get_full_name }}</a>
+            </td>
+        </tr>
+        <tr>
+            <td><th>Date:</th></td>
+            <td>{{ tweet.creation_date }}</td>
+        </tr>
+    </table>
+</div>
+<div id="all-comments">
+    <h4>Comments:</h4>
+    <table>
+        {% for comment in comments_list %}
+        <tr>
+            <td>{{ comment.contents }}</td>
+            <td>{{ comment.creation_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div id="add-comment">
+    <h4>New comment:</h4>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ comment_form }}
+        <a href=""><input type="submit" value="Add comment"></a>
+    </form>
+</div>
 
-<h4>Tweet details:</h4>
-<table>
-    <tr>
-        <td><th>Tweet:</th></td>
-        <td>{{ tweet.content }}</td>
-    </tr>
-    <tr>
-        <td><th>Author:</th></td>
-        <td>{{ tweet.user }}</td>
-    </tr>
-    <tr>
-        <td><th>Date:</th></td>
-        <td>{{ tweet.creation_date }}</td>
-    </tr>
-</table>
-
-{% endblock%}
+{% endblock %}
