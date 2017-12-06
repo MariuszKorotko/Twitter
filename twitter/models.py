@@ -49,6 +49,32 @@ class User(AbstractUser):
 
 class Tweet(models.Model):
     """Stores a single tweet, related to :model:`auth.User`."""
-    content = models.CharField(max_length=140)
+    contents = models.CharField(max_length=140)
     creation_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.content[0:40]
+
+
+class Message(models.Model):
+    """Stores a single message, related to :model:`auth.User"""
+    contents = models.CharField(max_length=256)
+    sender = models.ForeignKey(User, related_name='sender')
+    addressee = models.ForeignKey(User, related_name='addressee')
+    read_off = models.BooleanField(default=False)
+    creation_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.contents[0:40]
+
+
+class Comment(models.Model):
+    contents = models.CharField(max_length=60)
+    tweet = models.ForeignKey(Tweet)
+    user = models.ForeignKey(User)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    blocked = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.contents[0:40]
