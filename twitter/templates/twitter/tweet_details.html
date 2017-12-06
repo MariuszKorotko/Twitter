@@ -1,0 +1,23 @@
+{% extends 'twitter/base.html' %}
+
+{% block title %} TweetDetails {% endblock %}
+
+{% block content %}
+
+<h4>Tweet details:</h4>
+<table>
+    <tr>
+        <td><th>Tweet:</th></td>
+        <td>{{ tweet.content }}</td>
+    </tr>
+    <tr>
+        <td><th>Author:</th></td>
+        <td>{{ tweet.user }}</td>
+    </tr>
+    <tr>
+        <td><th>Date:</th></td>
+        <td>{{ tweet.creation_date }}</td>
+    </tr>
+</table>
+
+{% endblock%}

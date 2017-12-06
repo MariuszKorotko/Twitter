@@ -29,7 +29,7 @@ class UserAdmin(UserAdmin):
 
 @admin.register(Tweet)
 class TweetAdmin(admin.ModelAdmin):
-    list_display = ('content', 'creation_date', 'user')
+    list_display = ('contents', 'creation_date', 'user')
     date_hierarchy = 'creation_date'
-    search_fields = ['content']
+    search_fields = ['contents']
     list_filter = ('user', 'creation_date')
