@@ -3,22 +3,8 @@ from django.contrib.auth import login, authenticate
 from django.views import View
 from django.views.generic.edit import FormView
 from django.shortcuts import redirect, render
-from .models import Tweet
-from .forms import AddTweetForm, SignUpForm
-
-
-class IndexView(LoginRequiredMixin, View):
-    """Display all tweets using :view:`twitter.IndexView` create by
-    :model:`auth.User` using model :model:`twitter.Tweet`.
-    """
-    def get(self, request):
-        tweet_list = Tweet.objects.order_by('-creation_date')
-        form = AddTweetForm()
-        context = {
-            'form': form,
-            'tweet_list': tweet_list
-        }
-        return render(request, 'twitter/index.html', context)
+from .models import Comment, Tweet, User
+from .forms import AddCommentForm, AddTweetForm, SignUpForm
 
 
 def signup(request):
@@ -36,6 +22,20 @@ def signup(request):
     return render(request, 'twitter/signup.html', {'form': form})
 
 
+class IndexView(LoginRequiredMixin, View):
+    """Displays all tweets using :view:`twitter.IndexView` create by
+    :model:`auth.User` using model :model:`twitter.Tweet`.
+    """
+    def get(self, request):
+        tweet_list = Tweet.objects.order_by('-creation_date')
+        tweet_form = AddTweetForm()
+        context = {
+            'form': tweet_form,
+            'tweet_list': tweet_list
+        }
+        return render(request, 'twitter/index.html', context)
+
+
 class AddTweetView(LoginRequiredMixin, FormView):
     """Adds new tweet to db"""
     template_name = "index.html"
@@ -44,8 +44,36 @@ class AddTweetView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         user = self.request.user
-        content = form.cleaned_data['content']
+        contents = form.cleaned_data['contents']
         Tweet.objects.create(user=user,
-                             content=content,
+                             contents=contents,
                              )
         return super(AddTweetView, self).form_valid(form)
+
+
+class TweetDetailsView(LoginRequiredMixin, View):
+    """Displays details of tweet."""
+    def get(self, request, id):
+        tweet = Tweet.objects.get(pk=id)
+        comments_list = Comment.objects.filter(tweet_id=tweet.id).order_by(
+            '-creation_date')
+        comment_form = AddCommentForm()
+        context = {
+            'tweet': tweet,
+            'comments': comments_list,
+            'comment_form': comment_form
+        }
+        return render(request, 'twitter/tweet_details.html', context)
+
+
+class UserDetailsView(LoginRequiredMixin, View):
+    """Displays details of user"""
+    def get(self, request, id):
+        user = User.objects.get(pk=id)
+        tweets = Tweet.objects.filter(user_id=user.id).order_by(
+            '-creation_date')
+        context = {
+            'user': user,
+            'tweet_list': tweets
+        }
+        return render(request, 'twitter/user_details.html', context)
