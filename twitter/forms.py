@@ -1,22 +1,31 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from django.forms.widgets import Textarea
-from twitter.models import Tweet, User
+from twitter.models import Comment, Tweet, User
 
 
 class SignUpForm(UserCreationForm):
-    """Adding new user"""
+    """Adds new user"""
     class Meta:
         model = User
         fields = ('email', 'first_name', 'last_name')
 
 
 class AddTweetForm(ModelForm):
-    """Adding new tweet."""
+    """Adds new tweet."""
     class Meta:
         model = Tweet
-        fields = ['content']
+        fields = ['contents']
         widgets = {
-            'content': Textarea(attrs={'cols': 60, 'rows': 3})
+            'contents': Textarea(attrs={'cols': 40, 'rows': 4})
+        }
+
+
+class AddCommentForm(ModelForm):
+    """Adds new comment"""
+    class Meta:
+        model = Comment
+        fields = ['contents']
+        widgets = {
+            'contents': Textarea(attrs={'cols': 40, 'rows': 2})
         }
