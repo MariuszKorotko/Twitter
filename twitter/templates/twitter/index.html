@@ -3,24 +3,45 @@
 {% block title %} Twitts {% endblock %}
 
 {% block content %}
-
-<form action="{% url 'twitter:add_tweet' %}" method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <a href=""><input type="submit" value="New tweet"></a>
-</form>
-
-<h4>Last tweets:</h4>
-<table>
-    {% for tweet in tweet_list %}
-    <tr>
-        <td>{{ tweet.content }}</td>
-        <td><a href="">{{ tweet.user.get_short_name }}</a></td>
-        <td><a href="">Add comment</a></td>
-    </tr>
-    {% endfor %}
-</table>
+<div id="logged-user">
+    <h4>Logged user:</h4>
+    <table>
+        <tr>
+            <td>
+                <a href="">{{ user.get_username }}</a>
+            </td>
+        </tr>
+    </table>
+</div>
 <br>
-    <a href="{% url 'twitter:logout' %}">Logout</a>
+<div id="add-tweet">
+    <h4>New tweet:</h4>
+    <form action="{% url 'twitter:add_tweet' %}" method="POST">
+        {% csrf_token %}
+        {{ tweet_form }}
+        <a href=""><input type="submit" value="Add tweet"></a>
+    </form>
+</div>
+<br>
+<div id="all-tweets">
+    <h4>Last tweets:</h4>
+    <table>
+        {% for tweet in tweet_list %}
+        <tr>
+            <td>
+                <a href="/twitter/tweet_details/{{ tweet.id }}">
+                {{ tweet.contents }}</a>
+            </td>
+            <td>{{ tweet.creation_date }}</td>
+            <td>
+                <a href="/twitter/user_details/{{ tweet.user.id }}">
+                    {{ tweet.user.get_full_name }}</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<br>
+    <a href="{% url 'twitter:logout' %}"><button>Logout</button></a>
 
 {% endblock %}
