@@ -1,0 +1,21 @@
+{% extends 'twitter/base.html' %}
+
+{% block title %} UserDetails {% endblock %}
+
+{% block content %}
+
+<div id="user-details">
+    <h4>Tweets of {{ user.get_full_name }} :</h4>
+    <table>
+        {% for tweet in tweet_list %}
+        <tr>
+            <td>{{ tweet.contents }}</td>
+            <td>{{ tweet.creation_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href=""><button>Message</button></a>
+</div>
+
+{% endblock %}
