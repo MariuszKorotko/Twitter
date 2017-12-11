@@ -54,7 +54,7 @@ class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.content[0:40]
+        return self.contents[0:40]
 
 
 class Message(models.Model):
