@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from .views import AddTweetView, IndexView, signup, TweetDetailsView, \
-                   UserDetailsView
+from .views import AddTweetView, IndexView, signup, \
+    TweetDetailsView, UserDetailsView
+# AddCommentView
 
 app_name = 'twitter'
 
@@ -28,5 +29,4 @@ urlpatterns = [
         name='tweet_details'),
     url(r'^user_details/(?P<id>(\d)+)/$', UserDetailsView.as_view(),
         name='user_details'),
-
 ]
