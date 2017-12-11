@@ -28,7 +28,8 @@
     <table>
         {% for comment in comments_list %}
         <tr>
-            <td>{{ comment.contents }}</td>
+            <td><th>{{ comment.contents }}</th></td>
+            <td>{{ comment.user.get_full_name }}</td>
             <td>{{ comment.creation_date }}</td>
         </tr>
         {% endfor %}
@@ -38,7 +39,7 @@
     <h4>New comment:</h4>
     <form action="" method="POST">
         {% csrf_token %}
-        {{ comment_form }}
+        {{ comment_form.as_p }}
         <a href=""><input type="submit" value="Add comment"></a>
     </form>
 </div>
