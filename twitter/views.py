@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
+from django.core.urlresolvers import reverse_lazy
 from django.views import View
 from django.views.generic.edit import FormView
 from django.shortcuts import redirect, render
@@ -30,7 +31,7 @@ class IndexView(LoginRequiredMixin, View):
         tweet_list = Tweet.objects.order_by('-creation_date')
         tweet_form = AddTweetForm()
         context = {
-            'form': tweet_form,
+            'tweet_form': tweet_form,
             'tweet_list': tweet_list
         }
         return render(request, 'twitter/index.html', context)
@@ -40,30 +41,41 @@ class AddTweetView(LoginRequiredMixin, FormView):
     """Adds new tweet to db"""
     template_name = "index.html"
     form_class = AddTweetForm
-    success_url = '/twitter/'
+    success_url = reverse_lazy('twitter:index')
 
-    def form_valid(self, form):
+    def form_valid(self, tweet_form):
         user = self.request.user
-        contents = form.cleaned_data['contents']
+        contents = tweet_form.cleaned_data['contents']
         Tweet.objects.create(user=user,
                              contents=contents,
                              )
-        return super(AddTweetView, self).form_valid(form)
+        return super(AddTweetView, self).form_valid(tweet_form)
 
 
 class TweetDetailsView(LoginRequiredMixin, View):
-    """Displays details of tweet."""
+    """Displays details of tweet and adds new comment to db"""
     def get(self, request, id):
         tweet = Tweet.objects.get(pk=id)
-        comments_list = Comment.objects.filter(tweet_id=tweet.id).order_by(
-            '-creation_date')
-        comment_form = AddCommentForm()
+        comments_list = Comment.objects.filter(tweet_id=tweet.id,
+                                               blocked=False).order_by(
+                                                              '-creation_date')
+        comment_form = AddCommentForm(initial={'user': request.user,
+                                               'tweet': id
+                                               })
         context = {
             'tweet': tweet,
-            'comments': comments_list,
+            'comments_list': comments_list,
             'comment_form': comment_form
         }
         return render(request, 'twitter/tweet_details.html', context)
+
+    def post(self, request, id):
+        comment_form = AddCommentForm(request.POST)
+        tweet = Tweet.objects.get(pk=id)
+        if comment_form.is_valid():
+            comment_form.contents = comment_form.cleaned_data['contents']
+            comment_form.save()
+            return redirect('/twitter/tweet_details/{}'.format(tweet.id))
 
 
 class UserDetailsView(LoginRequiredMixin, View):
