@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
-from django.forms.widgets import Textarea
+from django.forms.widgets import HiddenInput, Textarea
 from twitter.models import Comment, Tweet, User
 
 
@@ -25,7 +25,9 @@ class AddCommentForm(ModelForm):
     """Adds new comment"""
     class Meta:
         model = Comment
-        fields = ['contents']
+        fields = ['contents', 'tweet', 'user']
         widgets = {
-            'contents': Textarea(attrs={'cols': 40, 'rows': 2})
+            'contents': Textarea(attrs={'cols': 40, 'rows': 2}),
+            'tweet': HiddenInput(),
+            'user': HiddenInput()
         }
