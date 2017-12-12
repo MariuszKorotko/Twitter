@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from .models import User, Tweet
+from .models import Comment, User, Tweet
 
 
 @admin.register(User)
@@ -29,6 +29,14 @@ class UserAdmin(UserAdmin):
 
 @admin.register(Tweet)
 class TweetAdmin(admin.ModelAdmin):
+    list_display = ('contents', 'creation_date', 'user')
+    date_hierarchy = 'creation_date'
+    search_fields = ['contents']
+    list_filter = ('user', 'creation_date')
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
     list_display = ('contents', 'creation_date', 'user')
     date_hierarchy = 'creation_date'
     search_fields = ['contents']
