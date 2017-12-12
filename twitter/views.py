@@ -82,10 +82,12 @@ class UserDetailsView(LoginRequiredMixin, View):
     """Displays details of user"""
     def get(self, request, id):
         user = User.objects.get(pk=id)
-        tweets = Tweet.objects.filter(user_id=user.id).order_by(
+        logged_user = self.request.user
+        tweets = Tweet.objects.filter(user=user.id).order_by(
             '-creation_date')
         context = {
             'user': user,
-            'tweet_list': tweets
+            'tweet_list': tweets,
+            'logged_user': logged_user
         }
         return render(request, 'twitter/user_details.html', context)
