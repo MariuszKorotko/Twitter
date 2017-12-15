@@ -3,17 +3,7 @@
 {% block title %} Twitts {% endblock %}
 
 {% block content %}
-<div id="logged-user">
-    <h4>Logged user:</h4>
-    <table>
-        <tr>
-            <td>
-                <a href="">{{ user.get_username }}</a>
-            </td>
-        </tr>
-    </table>
-</div>
-<br>
+
 <div id="add-tweet">
     <h4>New tweet:</h4>
     <form action="{% url 'twitter:add_tweet' %}" method="POST">
@@ -41,7 +31,5 @@
         {% endfor %}
     </table>
 </div>
-<br>
-    <a href="{% url 'twitter:logout' %}"><button>Logout</button></a>
 
 {% endblock %}

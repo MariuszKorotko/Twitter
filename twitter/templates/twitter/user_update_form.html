@@ -7,9 +7,10 @@
 <form	action=""	method="POST">
     {%	csrf_token	%}
     {{	form.as_p	}}
-    <input	type="submit"	value="Save">
+    <input	type="submit" value="Save">
 </form>
 <br>
-<a href=""><button>Delete user</button></a>
+<a href="{% url 'twitter:password_change' %}">Change password</a>&nbsp;
+<a href="/twitter/user_delete/{{ request.user.id }}">Delete user</a>
 
 {% endblock %}

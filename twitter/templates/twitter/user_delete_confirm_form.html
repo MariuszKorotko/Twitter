@@ -1,0 +1,14 @@
+{% extends 'twitter/base.html' %}
+
+{% block title %} DeleteUser {% endblock %}
+
+{% block content %}
+
+<h4>Are you really want delete user account?</h4>
+<form action=""	method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Confirm delete">
+</form>
+
+{% endblock %}
