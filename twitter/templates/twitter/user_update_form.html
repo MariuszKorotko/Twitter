@@ -1,0 +1,15 @@
+{% extends 'twitter/base.html' %}
+
+{% block title %} UserDetails {% endblock %}
+
+{% block content %}
+
+<form	action=""	method="POST">
+    {%	csrf_token	%}
+    {{	form.as_p	}}
+    <input	type="submit"	value="Save">
+</form>
+<br>
+<a href=""><button>Delete user</button></a>
+
+{% endblock %}
