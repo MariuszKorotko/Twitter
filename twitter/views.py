@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, authenticate
 from django.core.urlresolvers import reverse_lazy
 from django.views import View
-from django.views.generic.edit import FormView
+from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.shortcuts import redirect, render
 from .models import Comment, Tweet, User
 from .forms import AddCommentForm, AddTweetForm, SignUpForm
@@ -53,12 +53,12 @@ class AddTweetView(LoginRequiredMixin, FormView):
 
 
 class TweetDetailsView(LoginRequiredMixin, View):
-    """Displays details of tweet and adds new comment to db"""
+    """Displays tweet details and adds new comment to db"""
     def get(self, request, id):
         tweet = Tweet.objects.get(pk=id)
         comments_list = Comment.objects.filter(tweet_id=tweet.id,
                                                blocked=False).order_by(
-                                                              '-creation_date')
+                                                              'creation_date')
         comment_form = AddCommentForm(initial={'user': request.user,
                                                'tweet': id
                                                })
@@ -79,7 +79,7 @@ class TweetDetailsView(LoginRequiredMixin, View):
 
 
 class UserDetailsView(LoginRequiredMixin, View):
-    """Displays details of user"""
+    """Displays user details."""
     def get(self, request, id):
         user = User.objects.get(pk=id)
         logged_user = self.request.user
@@ -91,3 +91,26 @@ class UserDetailsView(LoginRequiredMixin, View):
             'logged_user': logged_user
         }
         return render(request, 'twitter/user_details.html', context)
+
+
+class UserUpdateView(LoginRequiredMixin, UpdateView):
+    """Displays and updates account details."""
+    model = User
+    fields = ['email', 'first_name', 'last_name']
+    template_name = "twitter/user_update_form.html"
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy('twitter:index')
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    """Deletes user"""
+    model = User
+    template_name = "twitter/user_delete_confirm_form.html"
+    success_url = reverse_lazy('twitter:login')
+
+    def get_object(self, queryset=None):
+        return self.request.user

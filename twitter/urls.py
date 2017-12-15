@@ -14,14 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
-from .views import AddTweetView, IndexView, signup, \
-    TweetDetailsView, UserDetailsView
-# AddCommentView
+from .views import IndexView, signup, AddTweetView, TweetDetailsView, \
+    UserDetailsView, UserUpdateView, UserDeleteView
 
 app_name = 'twitter'
 
 urlpatterns = [
-    url(r'^accounts/', include('django.contrib.auth.urls')),
+    url('^', include('django.contrib.auth.urls')),
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^signup/$', signup, name='signup'),
     url(r'^add_tweet$', AddTweetView.as_view(), name='add_tweet'),
@@ -29,4 +28,8 @@ urlpatterns = [
         name='tweet_details'),
     url(r'^user_details/(?P<id>(\d)+)/$', UserDetailsView.as_view(),
         name='user_details'),
+    url(r'^user_update/(?P<id>(\d)+)/$', UserUpdateView.as_view(),
+        name='user_update'),
+    url(r'^user_delete/(?P<id>(\d)+)/$', UserDeleteView.as_view(),
+        name='user_delete'),
 ]
