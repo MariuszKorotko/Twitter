@@ -13,15 +13,11 @@
         {% endfor %}
         </ul>
 </div>
-
-{% if user != logged_user %}
 <div>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ message_form.as_p }}
-        <a href=""><input type="submit" value="Send message"></a>
-    </form>
-</div>
+{% if user != logged_user %}
+        <a href="{% url 'twitter:add_message' user.id %}"><button>Send
+            message</button></a>
 {% endif %}
+</div>
 
 {% endblock %}
