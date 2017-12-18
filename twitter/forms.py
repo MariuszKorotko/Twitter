@@ -37,7 +37,9 @@ class AddMessageForm(ModelForm):
     """Creates new message."""
     class Meta:
         model = Message
-        exclude = ['creation_date']
+        exclude = ['creation_date', 'read_off']
         widgets = {
             'contents': Textarea(attrs={'cols': 40, 'rows': 2}),
+            'sender': HiddenInput(),
+            'receiver': HiddenInput()
         }
