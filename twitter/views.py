@@ -5,7 +5,7 @@ from django.views import View
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.shortcuts import redirect, render
 from .models import Comment, Message, Tweet, User
-from .forms import AddCommentForm, AddTweetForm, SignUpForm
+from .forms import AddCommentForm, AddMessageForm, AddTweetForm, SignUpForm
 
 
 def signup(request):
@@ -85,10 +85,12 @@ class UserDetailsView(LoginRequiredMixin, View):
         logged_user = self.request.user
         tweets = Tweet.objects.filter(user=user.id).order_by(
             '-creation_date')
+        message_form = AddMessageForm
         context = {
             'user': user,
             'tweet_list': tweets,
-            'logged_user': logged_user
+            'logged_user': logged_user,
+            'message_form': message_form
         }
         return render(request, 'twitter/user_details.html', context)
 
