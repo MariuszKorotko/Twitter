@@ -13,15 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url
+from django.core.urlresolvers import reverse_lazy
 from .views import IndexView, signup, AddTweetView, TweetDetailsView, \
     UserDetailsView, UserUpdateView, UserDeleteView
+from django.contrib.auth import views as auth_views
 
 app_name = 'twitter'
 
 urlpatterns = [
-    url('^', include('django.contrib.auth.urls')),
     url(r'^$', IndexView.as_view(), name='index'),
+    url(r'^login/', auth_views.LoginView.as_view(
+        template_name='registration/login_form.html'),
+        name='login'),
+    url(r'^logout/', auth_views.LogoutView.as_view(
+        template_name='registration/logged_out.html'),
+        name='logout'),
     url(r'^signup/$', signup, name='signup'),
     url(r'^add_tweet$', AddTweetView.as_view(), name='add_tweet'),
     url(r'^tweet_details/(?P<id>(\d)+)/$', TweetDetailsView.as_view(),
@@ -32,4 +39,11 @@ urlpatterns = [
         name='user_update'),
     url(r'^user_delete/(?P<id>(\d)+)/$', UserDeleteView.as_view(),
         name='user_delete'),
+    url(r'^password_change/$', auth_views.PasswordChangeView.as_view(
+            template_name='registration/password_change_form.html',
+            success_url=reverse_lazy('twitter:password_change_done')),
+        name="password_change"),
+    url(r'^password_change/done/$', auth_views.PasswordChangeDoneView.as_view(
+            template_name='registration/password_change_done.html'),
+        name="password_change_done"),
 ]
