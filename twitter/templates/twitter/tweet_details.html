@@ -13,8 +13,8 @@
         <tr>
             <td><th>Author:</th></td>
             <td>
-                <a href="/twitter/user_details/{{ user.id }}">
-                   {{ tweet.user.get_full_name }}</a>
+                <a href="{% url 'twitter:user_details' tweet.user.id %}">
+                   {{ tweet.user.get_username }}</a>
             </td>
         </tr>
         <tr>
@@ -29,7 +29,7 @@
         {% for comment in comments_list %}
         <tr>
             <td><th>{{ comment.contents }}</th></td>
-            <td>{{ comment.user.get_full_name }}</td>
+            <td>{{ comment.user.get_username }}</td>
             <td>{{ comment.creation_date }}</td>
         </tr>
         {% endfor %}

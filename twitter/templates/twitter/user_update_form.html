@@ -3,14 +3,17 @@
 {% block title %} UserDetails {% endblock %}
 
 {% block content %}
-
+<div>
+<h4>Update personal information:</h4>
 <form	action=""	method="POST">
     {%	csrf_token	%}
     {{	form.as_p	}}
-    <input	type="submit" value="Save">
+    <input	type="submit" value="Update">
 </form>
-<br>
-<a href="{% url 'twitter:password_change' %}">Change password</a>&nbsp;
-<a href="/twitter/user_delete/{{ request.user.id }}">Delete user</a>
-
+</div>
+<div>
+<h4>Account:</h4>
+<p><a href="{% url 'twitter:password_change' %}">Change password</a>&nbsp;</p>
+<p><a href="/twitter/user_delete/{{ request.user.id }}">Delete account</a></p>
+</div>
 {% endblock %}

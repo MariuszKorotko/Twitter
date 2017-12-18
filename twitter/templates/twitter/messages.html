@@ -1,0 +1,57 @@
+{% extends 'twitter/base.html' %}
+
+{% block title %} Messages {% endblock %}
+
+{% block content %}
+<div>
+    <h4>Received messages:</h4>
+    <table>
+        {% for message in received_messages %}
+        <tr>
+            <td>
+                From: {{ message.sender.get_username }}
+            </td>
+            <td>
+                Date: {{ message.creation_date }}
+            </td>
+            <td>
+                Contents: {{ message.contents|slice:":30" }}
+            </td>
+            <td>
+                Read off: {{ message.read_off }}
+            </td>
+            <td>
+                <a href="{% url 'twitter:message_details' message.id %}">Read
+                    message
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<div>
+    <h4>Sent messages:</h4>
+    <table>
+        {% for message in sent_messages %}
+        <tr>
+            <td>
+                From: {{ message.receiver.get_username }}
+            </td>
+            <td>
+                Date: {{ message.creation_date }}
+            </td>
+            <td>
+                Contents: {{ message.contents|slice:":30" }}
+            </td>
+            <td>
+                <a href="{% url 'twitter:message_details' message.id %}">Read
+                    message
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}
