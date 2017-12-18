@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.core.urlresolvers import reverse_lazy
-from .views import IndexView, signup, AddTweetView, TweetDetailsView, \
-    UserDetailsView, UserUpdateView, UserDeleteView, MessagesView
+from .views import IndexView, signup, AddMessageView, AddTweetView, \
+    TweetDetailsView, UserDetailsView, UserUpdateView, UserDeleteView, \
+    MessagesView
 from django.contrib.auth import views as auth_views
 
 app_name = 'twitter'
@@ -47,4 +48,6 @@ urlpatterns = [
             template_name='registration/password_change_done.html'),
         name='password_change_done'),
     url(r'^messages/$', MessagesView.as_view(), name='messages'),
+    url(r'^add_message/(?P<id>(\d)+)/$', AddMessageView.as_view(),
+        name='add_message'),
 ]
