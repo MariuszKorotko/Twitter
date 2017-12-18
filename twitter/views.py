@@ -39,7 +39,7 @@ class IndexView(LoginRequiredMixin, View):
 
 class AddTweetView(LoginRequiredMixin, FormView):
     """Add new tweet to db"""
-    template_name = "index.html"
+    template_name = "twitter/index.html"
     form_class = AddTweetForm
     success_url = reverse_lazy('twitter:index')
 
@@ -85,12 +85,10 @@ class UserDetailsView(LoginRequiredMixin, View):
         logged_user = self.request.user
         tweets = Tweet.objects.filter(user=user.id).order_by(
             '-creation_date')
-        message_form = AddMessageForm
         context = {
             'user': user,
             'tweet_list': tweets,
             'logged_user': logged_user,
-            'message_form': message_form
         }
         return render(request, 'twitter/user_details.html', context)
 
@@ -131,3 +129,25 @@ class MessagesView(LoginRequiredMixin, View):
         }
 
         return render(request, 'twitter/messages.html', context)
+
+
+class AddMessageView(LoginRequiredMixin, View):
+    """Add new message to db"""
+    def get(self, request, id):
+        sender = self.request.user
+        receiver = User.objects.get(pk=id)
+        message_form = AddMessageForm(initial={'sender': sender,
+                                               'receiver': receiver})
+        context = {
+            'sender': sender,
+            'receiver': receiver,
+            'message_form': message_form
+        }
+        return render(request, 'twitter/add_message.html', context)
+
+    def post(self, request, id):
+        message_form = AddMessageForm(request.POST)
+        if message_form.is_valid():
+            message_form.contents = message_form.cleaned_data['contents']
+            message_form.save()
+            return redirect('/twitter/')
