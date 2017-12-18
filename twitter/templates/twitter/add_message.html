@@ -1,0 +1,17 @@
+{% extends 'twitter/base.html' %}
+
+{% block title %} AddMessage {% endblock %}
+
+{% block content %}
+<h4>Send message:</h4>
+<div>
+    <p>To:  {{ receiver.get_username }}</p>
+    <p>From: {{ sender.get_username }}</p>
+    <form action="{% url 'twitter:add_message' user.id %}" method="POST">
+        {% csrf_token %}
+        {{ message_form.as_p }}
+        <input type="submit" value="Send message">
+    </form>
+</div>
+
+{% endblock %}
