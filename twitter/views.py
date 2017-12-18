@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse_lazy
 from django.views import View
 from django.views.generic.edit import FormView, UpdateView, DeleteView
 from django.shortcuts import redirect, render
-from .models import Comment, Tweet, User
+from .models import Comment, Message, Tweet, User
 from .forms import AddCommentForm, AddTweetForm, SignUpForm
 
 
@@ -24,7 +24,7 @@ def signup(request):
 
 
 class IndexView(LoginRequiredMixin, View):
-    """Displays all tweets using :view:`twitter.IndexView` create by
+    """Display all tweets using :view:`twitter.IndexView` create by
     :model:`auth.User` using model :model:`twitter.Tweet`.
     """
     def get(self, request):
@@ -38,7 +38,7 @@ class IndexView(LoginRequiredMixin, View):
 
 
 class AddTweetView(LoginRequiredMixin, FormView):
-    """Adds new tweet to db"""
+    """Add new tweet to db"""
     template_name = "index.html"
     form_class = AddTweetForm
     success_url = reverse_lazy('twitter:index')
@@ -53,7 +53,7 @@ class AddTweetView(LoginRequiredMixin, FormView):
 
 
 class TweetDetailsView(LoginRequiredMixin, View):
-    """Displays tweet details and adds new comment to db"""
+    """Display tweet details and adds new comment to db"""
     def get(self, request, id):
         tweet = Tweet.objects.get(pk=id)
         comments_list = Comment.objects.filter(tweet_id=tweet.id,
@@ -79,7 +79,7 @@ class TweetDetailsView(LoginRequiredMixin, View):
 
 
 class UserDetailsView(LoginRequiredMixin, View):
-    """Displays user details."""
+    """Display user details."""
     def get(self, request, id):
         user = User.objects.get(pk=id)
         logged_user = self.request.user
@@ -94,7 +94,7 @@ class UserDetailsView(LoginRequiredMixin, View):
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-    """Displays and updates account details."""
+    """Display and updates account details."""
     model = User
     fields = ['email', 'first_name', 'last_name']
     template_name = "twitter/user_update_form.html"
@@ -107,10 +107,25 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
-    """Deletes user"""
+    """Delete user"""
     model = User
     template_name = "twitter/user_delete_confirm_form.html"
     success_url = reverse_lazy('twitter:login')
 
     def get_object(self, queryset=None):
         return self.request.user
+
+
+class MessagesView(LoginRequiredMixin, View):
+    """Display all messages sent and received."""
+    def get(self, request):
+        user = self.request.user
+        sent_messages = Message.objects.filter(sender=user)
+        received_messages = Message.objects.filter(receiver=user)
+
+        context = {
+            'sent_messages': sent_messages,
+            'received_messages': received_messages
+        }
+
+        return render(request, 'twitter/messages.html', context)
