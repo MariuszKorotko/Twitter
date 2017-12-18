@@ -61,7 +61,7 @@ class Message(models.Model):
     """Stores a single message, related to :model:`auth.User"""
     contents = models.CharField(max_length=256)
     sender = models.ForeignKey(User, related_name='sender')
-    addressee = models.ForeignKey(User, related_name='addressee')
+    receiver = models.ForeignKey(User, related_name='receiver')
     read_off = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
 
@@ -70,6 +70,7 @@ class Message(models.Model):
 
 
 class Comment(models.Model):
+    """Stores a single comment."""
     contents = models.CharField(max_length=60)
     tweet = models.ForeignKey(Tweet)
     user = models.ForeignKey(User)
