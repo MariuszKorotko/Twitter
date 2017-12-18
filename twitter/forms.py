@@ -8,7 +8,7 @@ class SignUpForm(UserCreationForm):
     """Adds new user"""
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name')
+        fields = ('email', 'first_name', 'last_name', 'password1', 'password2')
 
 
 class AddTweetForm(ModelForm):
