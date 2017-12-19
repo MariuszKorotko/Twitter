@@ -9,6 +9,7 @@ from .forms import AddCommentForm, AddMessageForm, AddTweetForm, SignUpForm
 
 
 def signup(request):
+    # Register new user to db.
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -151,3 +152,13 @@ class AddMessageView(LoginRequiredMixin, View):
             message_form.contents = message_form.cleaned_data['contents']
             message_form.save()
             return redirect('/twitter/')
+
+
+class MessageDetailsView(LoginRequiredMixin, View):
+    """Display message details."""
+    def get(self, request, id):
+        message = Message.objects.get(pk=id)
+        context = {
+            'message': message
+        }
+        return render(request, 'twitter/message_details.html', context)
