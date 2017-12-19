@@ -15,8 +15,10 @@
 <footer>
     {% if request.user.is_authenticated %}
         <h4>Logged user:</h4>
-        <a href="/twitter/user_update/{{ request.user.id }}">
+        <p><a href="{% url 'twitter:user_update' request.user.id %}">
             {{ request.user.get_username }}</a>&nbsp;
+            <a href=""></a>
+        </p>
         <a href="{% url 'twitter:logout' %}">
             <button>Logout</button></a>
     {% endif %}
