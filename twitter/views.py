@@ -18,7 +18,7 @@ def signup(request):
             password = form.cleaned_data.get('password1')
             user = authenticate(email=email, password=password)
             login(request, user)
-            return redirect('/twitter/')
+            return redirect(reverse_lazy('twitter:index'))
     else:
         form = SignUpForm()
     return render(request, 'twitter/signup.html', {'form': form})
@@ -76,7 +76,8 @@ class TweetDetailsView(LoginRequiredMixin, View):
         if comment_form.is_valid():
             comment_form.contents = comment_form.cleaned_data['contents']
             comment_form.save()
-            return redirect('/twitter/tweet_details/{}'.format(tweet.id))
+            return redirect(reverse_lazy('twitter:tweet_details',
+                                         kwargs={'id': str(tweet.id)}))
 
 
 class UserDetailsView(LoginRequiredMixin, View):
@@ -126,7 +127,7 @@ class MessagesView(LoginRequiredMixin, View):
 
         context = {
             'sent_messages': sent_messages,
-            'received_messages': received_messages
+            'received_messages': received_messages,
         }
 
         return render(request, 'twitter/messages.html', context)
@@ -151,14 +152,20 @@ class AddMessageView(LoginRequiredMixin, View):
         if message_form.is_valid():
             message_form.contents = message_form.cleaned_data['contents']
             message_form.save()
-            return redirect('/twitter/')
+            return redirect(reverse_lazy('twitter:index'))
 
 
 class MessageDetailsView(LoginRequiredMixin, View):
-    """Display message details."""
+    """Display message details and change unread message on read off message."""
     def get(self, request, id):
         message = Message.objects.get(pk=id)
+        user = self.request.user
+
+        if user == message.receiver:
+            message.read_off = True
+            message.save()
+
         context = {
             'message': message
-        }
+            }
         return render(request, 'twitter/message_details.html', context)
