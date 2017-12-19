@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.core.urlresolvers import reverse_lazy
 from .views import IndexView, signup, AddMessageView, AddTweetView, \
     TweetDetailsView, UserDetailsView, UserUpdateView, UserDeleteView, \
-    MessagesView
+    MessagesView,MessageDetailsView
 from django.contrib.auth import views as auth_views
 
 app_name = 'twitter'
@@ -50,4 +50,6 @@ urlpatterns = [
     url(r'^messages/$', MessagesView.as_view(), name='messages'),
     url(r'^add_message/(?P<id>(\d)+)/$', AddMessageView.as_view(),
         name='add_message'),
+    url(r'^message_details/(?P<id>(\d)+)/$', MessageDetailsView.as_view(),
+        name='message_details'),
 ]
