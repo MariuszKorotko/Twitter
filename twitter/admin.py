@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Comment, User, Tweet
+from .models import Comment, Message, User, Tweet
 
 
 @admin.register(User)
@@ -41,3 +41,12 @@ class CommentAdmin(admin.ModelAdmin):
     date_hierarchy = 'creation_date'
     search_fields = ['contents']
     list_filter = ('user', 'creation_date')
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('contents', 'creation_date', 'sender', 'receiver',
+                    'read_off')
+    date_hierarchy = 'creation_date'
+    search_fields = ['contents', 'sender', 'receiver']
+    list_filter = ('sender', 'receiver', 'creation_date', 'read_off')
