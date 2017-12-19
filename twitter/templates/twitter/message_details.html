@@ -1,0 +1,22 @@
+{% extends 'twitter/base.html' %}
+
+{% block title %} MessageDetails {% endblock %}
+
+{% block content %}
+
+<h4>Message details:</h4>
+<ul>
+    <li>Sender:
+        <a href="{% url 'twitter:user_details' message.sender.id %}">
+            {{ message.sender.get_username }}
+        </a>
+    </li>
+    <li>
+        Date: {{ message.creation_date }}
+    </li>
+    <li>
+        Contents: {{ message.contents }}
+    </li>
+</ul>
+
+{% endblock %}
