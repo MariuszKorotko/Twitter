@@ -15,7 +15,6 @@
             <td>{{ message.creation_date }}</td>
             <td><th>Contents: </th></td>
             <td>{{ message.contents|slice:":30" }}</td>
-            <td>{{ message.read_off }}</td>
             <td>
                 <a href="{% url 'twitter:message_details' message.id %}">Read</a>
             </td>
@@ -38,7 +37,6 @@
         <td>{{ message.creation_date }}</td>
         <td><th>Contents: </th></td>
         <td>{{ message.contents|slice:":30" }}</td>
-        <td>{{message.read_off }}</td>
         <td>
             <a href="{% url 'twitter:message_details' message.id %}">Read</a>
         </td>
