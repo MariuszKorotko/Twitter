@@ -31,9 +31,14 @@ class IndexView(LoginRequiredMixin, View):
     def get(self, request):
         tweet_list = Tweet.objects.order_by('-creation_date')
         tweet_form = AddTweetForm()
+        user = self.request.user
+        received_messages = Message.objects.filter(receiver=user).filter(
+            read_off=False)
+
         context = {
             'tweet_form': tweet_form,
-            'tweet_list': tweet_list
+            'tweet_list': tweet_list,
+            'received_messages': received_messages,
         }
         return render(request, 'twitter/index.html', context)
 

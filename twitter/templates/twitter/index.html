@@ -36,7 +36,8 @@
 </div>
 <div class="tweet" id="messages">
     <h4>Messages:</h4>
-    <p><a href="{% url 'twitter:messages' %}">Messages</a></p>
+    <p><a href="{% url 'twitter:messages' %}">Messages</a>
+        (unread: {{ received_messages.count }})</p>
 </div>
 
 {% endblock %}
