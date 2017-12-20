@@ -29,11 +29,12 @@ class IndexView(LoginRequiredMixin, View):
     :model:`auth.User` using model :model:`twitter.Tweet`.
     """
     def get(self, request):
-        tweet_list = Tweet.objects.order_by('-creation_date')
+        tweet_list = Tweet.objects.filter(blocked=False).order_by(
+            '-creation_date')
         tweet_form = AddTweetForm()
         user = self.request.user
         received_messages = Message.objects.filter(receiver=user).filter(
-            read_off=False)
+            read_off=False).filter(blocked=False)
 
         context = {
             'tweet_form': tweet_form,
@@ -90,8 +91,8 @@ class UserDetailsView(LoginRequiredMixin, View):
     def get(self, request, id):
         user = User.objects.get(pk=id)
         logged_user = self.request.user
-        tweets = Tweet.objects.filter(user=user.id).order_by(
-            '-creation_date')
+        tweets = Tweet.objects.filter(user=user.id).filter(
+            blocked=False).order_by('-creation_date')
         context = {
             'user': user,
             'tweet_list': tweets,
@@ -127,8 +128,10 @@ class MessagesView(LoginRequiredMixin, View):
     """Display all messages sent and received."""
     def get(self, request):
         user = self.request.user
-        sent_messages = Message.objects.filter(sender=user)
-        received_messages = Message.objects.filter(receiver=user)
+        sent_messages = Message.objects.filter(sender=user).filter(
+            blocked=False)
+        received_messages = Message.objects.filter(receiver=user).filter(
+            blocked=False)
 
         context = {
             'sent_messages': sent_messages,
