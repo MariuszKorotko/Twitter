@@ -52,6 +52,7 @@ class Tweet(models.Model):
     contents = models.CharField(max_length=140)
     creation_date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    blocked = models.BooleanField(default=False)
 
     def __str__(self):
         return self.contents[0:40]
@@ -64,6 +65,7 @@ class Message(models.Model):
     receiver = models.ForeignKey(User, related_name='receiver')
     read_off = models.BooleanField(default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
+    blocked = models.BooleanField(default=False)
 
     def __str__(self):
         return self.contents[0:40]
