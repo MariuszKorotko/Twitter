@@ -3,9 +3,21 @@
 {% block title %} New user {% endblock %}
 
 {% block content %}
-<form action="{% url 'twitter:signup' %}" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <a href=""><input type="submit" value="SignUp"></a>
-</form>
+
+<div>
+<table>
+    <tr>
+        <th colspan="2">Create account:</th>
+    </tr>
+    <tr>
+        <form action="{% url 'twitter:signup' %}" method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <th>Click or press enter to signup:</th>
+            <td><input type="submit" value="SignUp"></td>
+        </form>
+    </tr>
+</table>
+</div>
+
 {% endblock %}
