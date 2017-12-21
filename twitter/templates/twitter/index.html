@@ -4,18 +4,32 @@
 
 {% block content %}
 
-<div class="tweet" id="add-tweet">
-    <h4>New tweet:</h4>
-    <form action="{% url 'twitter:add_tweet' %}" method="POST">
-        {% csrf_token %}
-        {{ tweet_form.as_p }}
-        <a href=""><input type="submit" value="Add tweet"></a>
-    </form>
-</div>
-<br>
-<div class="tweet" id="all-tweets">
-    <h4>Last tweets:</h4>
+<div>
     <table>
+        <div id="add_tweet">
+            <tr>
+            <th colspan="4">New tweet:</th>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <form action="{% url 'twitter:add_tweet' %}" method="POST">
+                    {% csrf_token %}
+                    {{ tweet_form.as_p }}
+                    <input type="submit" value="Add tweet">
+                </form>
+            </td>
+        </tr>
+        </div>
+        <div id="tweets">
+        <tr>
+            <th colspan="4">Last tweets:</th>
+        </tr>
+        <tr>
+            <th>Contents:</th>
+            <th>Date:</th>
+            <th>Who:</th>
+            <th>Name:</th>
+        </tr>
         {% for tweet in tweet_list %}
         <tr>
             <td>
@@ -32,12 +46,24 @@
             </td>
         </tr>
         {% endfor %}
+        </div>
     </table>
-</div>
-<div class="tweet" id="messages">
-    <h4>Messages:</h4>
-    <p><a href="{% url 'twitter:messages' %}">Messages</a>
-        (unread: {{ received_messages.count }})</p>
+    <table>
+        <div id="messages">
+        <tr>
+            <th colspan="4">
+                Messages:
+            </th>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <a href="{% url 'twitter:messages' %}">
+                Messages
+                </a>(unread: {{ received_messages.count }})
+            </td>
+        </tr>
+        </div>
+    </table>
 </div>
 
 {% endblock %}
