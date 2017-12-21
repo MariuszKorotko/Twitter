@@ -3,71 +3,40 @@
 {% block title %} Messages {% endblock %}
 
 {% block content %}
-<div id="unread_messages">
-<h4>Uread messages:</h4>
-<table>
-    {% for message in received_messages %}
-    {% if message.read_off is False %}
-        <tr>
-            <td><th>From: </th></td>
-            <td>{{ message.sender.get_username }}</td>
-            <td><th>Date: </th></td>
-            <td>{{ message.creation_date }}</td>
-            <td><th>Contents: </th></td>
-            <td>{{ message.contents|slice:":30" }}</td>
-            <td>
-                <a href="{% url 'twitter:message_details' message.id %}">Read</a>
-            </td>
-        </tr>
-        {% endif %}
-{% endfor %}
-</table>
-</div>
 
-<div id="read_messages">
-<h4>Received messages:</h4>
+<div id="received_messages">
 <table>
+    <tr><th colspan="4">Received messages:</th></tr>
     {% for message in received_messages %}
-    {% if message.read_off is True %}
     <tr>
-        <td><th>From: </th></td>
-        <td><a href="{% url 'twitter:user_details' message.sender.id %}">
-            {{ message.sender.get_username }}</a></td>
-        <td><th>Date: </th></td>
-        <td>{{ message.creation_date }}</td>
-        <td><th>Contents: </th></td>
-        <td>{{ message.contents|slice:":30" }}</td>
         <td>
-            <a href="{% url 'twitter:message_details' message.id %}">Read</a>
-        </td>
+            <a href="{% url 'twitter:message_details' message.id %}">
+                {{ message.contents|slice:":30" }}</a></td>
+        <td>From: <a href="{% url 'twitter:user_details' message.sender.id %}">
+            {{ message.sender.get_username }}</a></td>
+        <td>{{ message.creation_date }}</td>
+        {% if message.read_off is False %}
+        <td>Unread message!</td>
+        {% endif %}
     </tr>
-{% endif %}
-{% endfor %}
-</table>
-</div>
-<div id="send_messages">
-<h4>Sent messages:</h4>
-<table>
+    {% endfor %}
+    <tr><th colspan="3">Sent messages:</th></tr>
     {% for message in sent_messages %}
     <tr>
-        <td><th>To:</th></td>
         <td>
+            <a href="{% url 'twitter:message_details' message.id %}">
+                {{ message.contents|slice:":30" }}</a>
+        </td>
+        <td>To:
             <a href="{% url 'twitter:user_details' message.receiver.id %}">
             {{ message.receiver.get_username }}</a>
         </td>
-        <td><th>Date:</th></td>
         <td>
             {{ message.creation_date }}
-        </td>
-        <td><th>Contents:</th></td>
-        <td>
-            {{ message.contents|slice:":30" }}
-        </td>
-        <td>
-            <a href="{% url 'twitter:message_details' message.id %}">Read</a>
         </td>
     </tr>
     {% endfor %}
 </table>
 </div>
+
 {% endblock %}
