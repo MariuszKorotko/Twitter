@@ -3,8 +3,16 @@
 {% block title %} Logout {% endblock %}
 
 {% block content %}
-    <table>
-        <tr><th>You logged out successfully!</th></tr>
-        <tr><td><a href="{% url 'twitter:login' %}">Login again</a></td></tr>
-    </table>
+
+<table>
+    <tr>
+        <th>You logged out successfully!</th>
+    </tr>
+    <tr>
+        <td>
+            <a href="{% url 'twitter:login' %}">Login again</a>
+        </td>
+    </tr>
+</table>
+
 {% endblock %}
