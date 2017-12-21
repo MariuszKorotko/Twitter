@@ -4,20 +4,26 @@
 
 {% block content %}
 
-<div id="user-details">
-    <h4>Tweets of {{ user.get_username }} :</h4>
-        <ul>
-        {% for tweet in tweet_list %}
-            <li>{{ tweet.contents }} &nbsp {{ tweet.creation_date }}</li>
-            <li>Comments: &nbsp {{ tweet.comment_set.count }}</li>
-        {% endfor %}
-        </ul>
-</div>
-<div>
-{% if user != logged_user %}
-        <a href="{% url 'twitter:add_message' user.id %}"><button>Send
-            message</button></a>
-{% endif %}
-</div>
+<table>
+    <tr><th colspan="3">Tweets of {{ user.get_username }}:</th></tr>
+    {% for tweet in tweet_list %}
+        <tr>
+            <td>
+                 <a href="{% url 'twitter:tweet_details' tweet.id %}">
+                     {{ tweet.contents }}</a>
+            </td>
+            <td>{{ tweet.creation_date }}</td>
+            <td>Comments: {{ tweet.comment_set.count }}</td>
+        </tr>
+    {% endfor %}
+    {% if user != logged_user %}
+    <tr>
+        <td colspan="3">
+        <a href="{% url 'twitter:add_message' user.id %}">
+            <button>Send message to: {{ user }}</button></a>
+        </td>
+    </tr>
+    {% endif %}
+</table>
 
 {% endblock %}
