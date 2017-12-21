@@ -4,21 +4,18 @@
 
 {% block content %}
 
-<h4>Message details:</h4>
-<ul>
-    <li>Sender:
-        <a href="{% url 'twitter:user_details' message.sender.id %}">
-            {{ message.sender.get_username }}
-        </a>
-    </li>
-    <li>
-        Date: {{ message.creation_date }}
-    </li>
-    <li>
-        Contents: {{ message.contents }}
-    </li>
-</ul>
-<a href="{% url 'twitter:messages' %}">Messages</a>
-
+<div>
+    <table>
+        <th colspan="4">Message details:</th>
+        <tr>
+            <td>{{ message.contents }}</td>
+            <td>From: <a href="{% url 'twitter:user_details' message.sender.id %}">
+            {{ message.sender.get_username }}</a>
+            </td>
+            <td>{{ message.creation_date }}</td>
+            <td><a href="{% url 'twitter:messages' %}"> Messages</a></td>
+        </tr>
+    </table>
+</div>
 
 {% endblock %}
