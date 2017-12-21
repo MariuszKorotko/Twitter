@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm
+from django.forms import ModelForm, CharField
 from django.forms.widgets import HiddenInput, Textarea
-from twitter.models import Comment, Message, Tweet, User
+from .models import Comment, Message, Tweet, User
 
 
 class SignUpForm(UserCreationForm):
@@ -13,21 +13,23 @@ class SignUpForm(UserCreationForm):
 
 class AddTweetForm(ModelForm):
     """Adds new tweet."""
+    contents = CharField(widget=Textarea(attrs={'cols': 80, 'rows': 2}),
+                         label='')
+
     class Meta:
         model = Tweet
         fields = ['contents']
-        widgets = {
-            'contents': Textarea(attrs={'cols': 40, 'rows': 4})
-        }
 
 
 class AddCommentForm(ModelForm):
     """Adds new comment."""
+    contents = CharField(widget=Textarea(attrs={'cols': 80, 'rows': 2}),
+                         label='')
+
     class Meta:
         model = Comment
         fields = ['contents', 'tweet', 'user']
         widgets = {
-            'contents': Textarea(attrs={'cols': 40, 'rows': 2}),
             'tweet': HiddenInput(),
             'user': HiddenInput()
         }
@@ -35,11 +37,13 @@ class AddCommentForm(ModelForm):
 
 class AddMessageForm(ModelForm):
     """Creates new message."""
+    contents = CharField(widget=Textarea(attrs={'cols': 80, 'rows': 2}),
+                         label='')
+
     class Meta:
         model = Message
-        exclude = ['creation_date', 'read_off']
+        exclude = ['creation_date', 'read_off', 'blocked']
         widgets = {
-            'contents': Textarea(attrs={'cols': 40, 'rows': 2}),
             'sender': HiddenInput(),
             'receiver': HiddenInput()
         }
