@@ -21,7 +21,7 @@ def signup(request):
             return redirect(reverse_lazy('twitter:index'))
     else:
         form = SignUpForm()
-    return render(request, 'twitter/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'form': form})
 
 
 class IndexView(LoginRequiredMixin, View):
@@ -129,9 +129,9 @@ class MessagesView(LoginRequiredMixin, View):
     def get(self, request):
         user = self.request.user
         sent_messages = Message.objects.filter(sender=user).filter(
-            blocked=False)
+            blocked=False).order_by('-creation_date')
         received_messages = Message.objects.filter(receiver=user).filter(
-            blocked=False)
+            blocked=False).order_by('-creation_date')
 
         context = {
             'sent_messages': sent_messages,
